@@ -22,10 +22,15 @@ console.log('Registering route: /upload'); // Add this
 //app.use('/upload', uploadRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './client/build')));
-  console.log('Registering route: * for static files'); // Add this
+  const staticPath = path.join(__dirname, 'client/build');
+  const indexPath = path.join(staticPath, 'index.html');
+  console.log('Static path exists:', require('fs').existsSync(staticPath));
+  console.log('Index.html exists:', require('fs').existsSync(indexPath));
+  app.use(express.static(staticPath));
+  console.log('Registering route: * for static files');
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/build', 'index.html'));
+    console.log('Serving index.html for:', req.path);
+    res.sendFile(indexPath);
   });
 }
 
