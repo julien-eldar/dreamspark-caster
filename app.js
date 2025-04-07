@@ -14,6 +14,10 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
+app.use((req, res, next) => {
+  console.log(`Route requested: ${req.method} ${req.path}`);
+  next();
+});
 app.use('/auth', authRoutes);
 app.use('/upload', uploadRoutes);
 
