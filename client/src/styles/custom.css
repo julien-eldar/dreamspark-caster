@@ -1,0 +1,32 @@
+:root {
+    --primary: #1E3A8A; /* Deep Blue */
+    --secondary: #B2D4F5; /* Light Blue */
+    --accent-purple: #6B21A8; /* Deep Purple */
+    --accent-light-purple: #D8B4E2; /* Light Purple */
+    --neutral-white: #FFFFFF;
+    --neutral-gray: #F5F5F5;
+    --accent-pink: #F9A8D4;
+    --accent-lavender: #E6E6FA;
+    --text-dark: #333333;
+    --text-light: #FFFFFF;
+  }
+  
+  body {
+    background-color: var(--neutral-gray);
+    color: var(--text-dark);
+  }
+  
+  .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(to right, var(--secondary), var(--accent-light-purple));
+    border-color: var(--accent-light-purple);
+  }
+  
+  .card {
+    background-color: var(--neutral-white);
+    border: 1px solid var(--accent-lavender);
+  }
