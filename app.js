@@ -27,11 +27,11 @@ if (process.env.NODE_ENV === 'production') {
   console.log('Static path exists:', require('fs').existsSync(staticPath));
   console.log('Index.html exists:', require('fs').existsSync(indexPath));
   app.use(express.static(staticPath));
-  console.log('Registering route: * for static files');
-  app.get('*', (req, res) => {
-    console.log('Serving index.html for:', req.path);
-    res.sendFile(indexPath);
-  });
+  //console.log('Registering route: * for static files');
+  //app.get('*', (req, res) => {
+  //  console.log('Serving index.html for:', req.path);
+  //  res.sendFile(indexPath);
+  //});
 }
 
 sequelize.sync({ force: false }).then(() => {
