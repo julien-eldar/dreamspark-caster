@@ -19,15 +19,15 @@ app.use((req, res, next) => {
 console.log('Registering route: /auth'); // Add this
 app.use('/auth', authRoutes);
 console.log('Registering route: /upload'); // Add this
-app.use('/upload', uploadRoutes);
+//app.use('/upload', uploadRoutes);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, './client/build')));
-  console.log('Registering route: * for static files'); // Add this
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, './client/build', 'index.html'));
-  });
-}
+//if (process.env.NODE_ENV === 'production') {
+//  app.use(express.static(path.join(__dirname, './client/build')));
+//  console.log('Registering route: * for static files'); // Add this
+//  app.get('*', (req, res) => {
+//    res.sendFile(path.join(__dirname, './client/build', 'index.html'));
+//  });
+//}
 
 sequelize.sync({ force: false }).then(() => {
   console.log('Database synced');
