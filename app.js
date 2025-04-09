@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 console.log('Registering route: /auth'); // Add this
 app.use('/auth', authRoutes);
 console.log('Registering route: /upload'); // Add this
-app.use('/upload', uploadRoutes); 
+app.use('/upload', authenticateToken, uploadRoutes);
 //Admin Routes (Requires authentication AND admin role)
 app.use('/admin', authenticateToken, isAdmin, adminRoutes);
 
