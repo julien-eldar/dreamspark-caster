@@ -1,30 +1,27 @@
-// TEMPORARY app.js for minimal testing
 const express = require('express');
-const path = require('path'); // Keep path
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 console.log('--- Starting ABSOLUTE MINIMAL app ---');
 
-// ONLY the problematic part pattern
-console.log('Registering minimal catch-all route');
-try {
-  app.get('/test', (req, res) => {
+// Test route
+app.get('/test', (req, res) => {
     res.send('Test route OK');
-    });
-    console.log('Minimal catch-all route registered successfully.');
-} catch (error) {
-    console.error('ERROR registering minimal catch-all route:', error);
-    process.exit(1); // Exit if registration itself fails
-}
-
-
-app.listen(PORT, () => {
-    console.log(`Minimal server running on port ${PORT}`);
 });
 
-// Add a basic error handler
+// Catch-all route
+console.log('Registering minimal catch-all route');
+app.get('/:path*', (req, res) => {
+    console.log('Catch-all hit for:', req.path);
+    res.send('Minimal Fallback OK');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+// Error handler
 app.use((err, req, res, next) => {
-    console.error("Unhandled Error in Minimal App:", err.stack);
-    res.status(500).send('Minimal App Error!');
+    console.error('Unhandled Error:', err.stack);
+    res.status(500).send('Server Error!');
 });
