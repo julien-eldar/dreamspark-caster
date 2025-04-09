@@ -28,14 +28,16 @@ app.use('/admin', authenticateToken, isAdmin, adminRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const staticPath = path.join(__dirname, 'client/build');
-  const indexPath = path.join(staticPath, 'index.html');
   console.log('Static path exists:', require('fs').existsSync(staticPath));
-  console.log('Index.html exists:', require('fs').existsSync(indexPath));
+  console.log('Index.html exists:', require('fs').existsSync(path.join(staticPath, 'index.html')));
+
   app.use(express.static(staticPath));
-  console.log('Registering route: * for static files');
-  app.get('*', (req, res) => {
-    console.log('Serving index.html for:', req.path);
-    res.sendFile(indexPath);
+
+  console.log('Registering simplified catch-all route'); // Changed log slightly
+  // Use '/*' for safety, and simplify the handler
+  app.get('/*', (req, res) => {
+    console.log('Simplified catch-all hit for:', req.path);
+    res.send('Fallback route OK'); // Simple text response
   });
 }
 
