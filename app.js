@@ -3,8 +3,11 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const sequelize = require('./config/database');
-const authRoutes = require('./routes/auth');
-//const uploadRoutes = require('./routes/upload');
+const authRoutes = require('./routes/auth');  
+const uploadRoutes = require('./routes/upload'); 
+const adminRoutes = require('./routes/admin'); // Import admin routes
+const authenticateToken = require('./middleware/auth'); // Import middleware
+const isAdmin = require('./middleware/isAdmin');     // Import middleware
 
 const app = express();
 
@@ -18,8 +21,10 @@ app.use((req, res, next) => {
 
 console.log('Registering route: /auth'); // Add this
 app.use('/auth', authRoutes);
-//console.log('Registering route: /upload'); // Add this
-//app.use('/upload', uploadRoutes);
+console.log('Registering route: /upload'); // Add this
+app.use('/upload', uploadRoutes); 
+//Admin Routes (Requires authentication AND admin role)
+app.use('/admin', authenticateToken, isAdmin, adminRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const staticPath = path.join(__dirname, 'client/build');
@@ -27,11 +32,11 @@ if (process.env.NODE_ENV === 'production') {
   console.log('Static path exists:', require('fs').existsSync(staticPath));
   console.log('Index.html exists:', require('fs').existsSync(indexPath));
   app.use(express.static(staticPath));
-  //console.log('Registering route: * for static files');
-  //app.get('*', (req, res) => {
-  //  console.log('Serving index.html for:', req.path);
-  //  res.sendFile(indexPath);
-  //});
+  console.log('Registering route: * for static files');
+  app.get('*', (req, res) => {
+    console.log('Serving index.html for:', req.path);
+    res.sendFile(indexPath);
+  });
 }
 
 sequelize.sync({ force: false }).then(() => {
