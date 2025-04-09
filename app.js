@@ -9,7 +9,7 @@ console.log('--- Starting ABSOLUTE MINIMAL app ---');
 // ONLY the problematic part pattern
 console.log('Registering minimal catch-all route');
 try {
-    app.get('/*', (req, res) => {
+    app.get('/:path*', (req, res) => {
         console.log('Minimal catch-all hit for:', req.path);
         // Even simpler: just send text
         res.send('Minimal Fallback OK');
