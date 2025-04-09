@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const sequelize = require('./config/database');
 const authRoutes = require('./routes/auth');
-const uploadRoutes = require('./routes/upload');
+//const uploadRoutes = require('./routes/upload');
 
 const app = express();
 
