@@ -1,50 +1,32 @@
-require('dotenv').config();
+// TEMPORARY app.js for minimal testing
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
-const sequelize = require('./config/database');
-const authRoutes = require('./routes/auth');  
-const uploadRoutes = require('./routes/upload'); 
-const adminRoutes = require('./routes/admin'); // Import admin routes
-const authenticateToken = require('./middleware/auth'); // Import middleware
-const isAdmin = require('./middleware/isAdmin');     // Import middleware
-
+const path = require('path'); // Keep path
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-app.use(cors());
-app.use(express.json());
+console.log('--- Starting ABSOLUTE MINIMAL app ---');
 
-app.use((req, res, next) => {
-  console.log(`Route requested: ${req.method} ${req.path}`);
-  next();
-});
-
-console.log('Registering route: /auth'); // Add this
-app.use('/auth', authRoutes);
-console.log('Registering route: /upload'); // Add this
-app.use('/upload', authenticateToken, uploadRoutes);
-//Admin Routes (Requires authentication AND admin role)
-app.use('/admin', authenticateToken, isAdmin, adminRoutes);
-
-if (process.env.NODE_ENV === 'production') {
-  const staticPath = path.join(__dirname, 'client/build');
-  console.log('Static path exists:', require('fs').existsSync(staticPath));
-  console.log('Index.html exists:', require('fs').existsSync(path.join(staticPath, 'index.html')));
-
-  app.use(express.static(staticPath));
-
-  console.log('Registering simplified catch-all route'); // Changed log slightly
-  // Use '/*' for safety, and simplify the handler
-  app.get('/*', (req, res) => {
-    console.log('Simplified catch-all hit for:', req.path);
-    res.send('Fallback route OK'); // Simple text response
-  });
+// ONLY the problematic part pattern
+console.log('Registering minimal catch-all route');
+try {
+    app.get('/*', (req, res) => {
+        console.log('Minimal catch-all hit for:', req.path);
+        // Even simpler: just send text
+        res.send('Minimal Fallback OK');
+    });
+    console.log('Minimal catch-all route registered successfully.');
+} catch (error) {
+    console.error('ERROR registering minimal catch-all route:', error);
+    process.exit(1); // Exit if registration itself fails
 }
 
-sequelize.sync({ force: false }).then(() => {
-  console.log('Database synced');
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}).catch(err => console.error('Database sync error:', err));
+
+app.listen(PORT, () => {
+    console.log(`Minimal server running on port ${PORT}`);
+});
+
+// Add a basic error handler
+app.use((err, req, res, next) => {
+    console.error("Unhandled Error in Minimal App:", err.stack);
+    res.status(500).send('Minimal App Error!');
+});
