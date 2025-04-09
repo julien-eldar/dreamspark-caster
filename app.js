@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 console.log('Registering route: /auth'); // Add this
 app.use('/auth', authRoutes);
 console.log('Registering route: /upload'); // Add this
-//app.use('/upload', uploadRoutes);
+app.use('/upload', uploadRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   const staticPath = path.join(__dirname, 'client/build');
